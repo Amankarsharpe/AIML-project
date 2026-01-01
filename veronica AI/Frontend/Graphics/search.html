@@ -1,0 +1,138 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple ChatGPT-like Search Bar</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;      /* page bg */
+      --card:#ffffff;    /* bar bg  */
+      --border:#e5e7eb;  /* outline */
+      --text:#0f172a;    /* text    */
+      --muted:#64748b;   /* placeholder */
+      --accent:#10a37f;  /* send button */
+      --ring: rgba(16,163,127,.25);
+      --shadow: 0 6px 20px rgba(2,6,23,.08);
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: var(--bg);
+      display:grid; place-items:center; padding:20px; color:var(--text);
+    }
+
+    .wrap{ width:min(800px, 100%); }
+    .bar{
+      display:grid; grid-template-columns: 1fr 48px 48px; align-items:center; gap:8px;
+      background: var(--card); border:1px solid var(--border); border-radius: 999px;
+      padding:8px 8px 8px 16px; box-shadow: var(--shadow);
+    }
+    .bar:focus-within{ box-shadow: 0 0 0 4px var(--ring), var(--shadow); }
+
+    input[type="text"]{
+      width:100%; height:48px; border:none; outline:none; background:transparent;
+      font-size:16px; color:var(--text);
+    }
+    input::placeholder{ color:var(--muted); }
+
+    .btn{ width:48px; height:48px; border:none; border-radius:999px; display:grid; place-items:center;
+      background:#f3f4f6; cursor:pointer; transition: transform .06s ease, filter .15s ease; }
+    .btn:hover{ filter: brightness(0.97); }
+    .btn:active{ transform: translateY(1px); }
+
+    .send{ background: var(--accent); color:#fff; }
+    .send:disabled{ opacity:.5; cursor:not-allowed; background:#cbd5e1; color:#475569; }
+
+    @media (prefers-color-scheme: dark){
+      :root{ --bg:#0f1115; --card:#141820; --border:#222838; --text:#e6e7eb; --muted:#9aa3b2; --shadow: 0 6px 20px rgba(0,0,0,.35);} 
+      .btn{ background:#202635; }
+      .send:disabled{ background:#2a3246; color:#9aa3b2; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="bar" role="search" aria-label="Search">
+      <input id="q" type="text" placeholder="Type here…" autocomplete="off" />
+      <button class="btn mic" id="micBtn" title="Voice input" aria-label="Voice input">
+        <!-- Mic icon -->
+        <!-- <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10a7 7 0 0 1-14 0"/>
+          <path d="M12 19v4"/>
+        </svg>
+      </button>
+      <button class="btn send" id="sendBtn" title="Send" aria-label="Send" disabled>
+        <!-- Paper plane icon -->
+        <!-- <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 2L11 13"/>
+          <path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+        </svg>
+      </button>
+    </div>
+    <button><a href="GUI.py">next</a></button>
+  </div>
+
+  <script>
+    const input = document.getElementById('q');
+    const sendBtn = document.getElementById('sendBtn');
+    const micBtn  = document.getElementById('micBtn');
+
+    // Enable send when there is text
+    const toggle = () => sendBtn.disabled = input.value.trim().length === 0;
+    input.addEventListener('input', toggle);
+    toggle();
+
+    // Keyboard: Enter to send, Esc to clear
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendBtn.click();
+      } else if (e.key === 'Escape') {
+        input.value = '';
+        toggle();
+      }
+    });
+
+    // Fake send: replace with your API call
+    sendBtn.addEventListener('click', () => {
+      if (sendBtn.disabled) return;
+      const text = input.value.trim();
+      console.log('Send:', text);
+      // TODO: hook your fetch() call here
+      input.value = '';
+      toggle();
+      input.placeholder = 'Sent! Type more…';
+      setTimeout(() => input.placeholder = 'Type here…', 1000);
+    });
+
+    // Optional voice input (Web Speech API if available)
+    let recognition;
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SR();
+      recognition.lang = 'en-IN';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      micBtn.addEventListener('click', () => {
+        try{ recognition.start(); micBtn.style.outline = '3px solid var(--ring)'; }catch(e){ console.warn(e); }
+      });
+
+      recognition.addEventListener('result', (e) => {
+        const t = Array.from(e.results).map(r => r[0].transcript).join(' ');
+        input.value = (input.value + ' ' + t).trim();
+        toggle();
+      });
+
+      recognition.addEventListener('end', () => { micBtn.style.outline = 'none'; input.focus(); });
+    } else {
+      micBtn.title = 'Voice not supported in this browser';
+      micBtn.style.opacity = .5; micBtn.style.cursor = 'not-allowed';
+      micBtn.addEventListener('click', () => {});
+    }
+  </script>
+</body>
+</html> --> --> -->

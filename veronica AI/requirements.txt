@@ -16,3 +16,4 @@ edge-tts
 PyQt5
 webdriver-manager
 
+
